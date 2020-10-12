@@ -17,7 +17,7 @@ import java.util.Set;
 public class TicketMasterAPI {
     private static final String URL = "https://app.ticketmaster.com/discovery/v2/events.json";
     private static final String DEFAULT_KEYWORD = "";
-    private static final String API_KEY = "";
+    private static final String API_KEY = "JxbjjFuVi1GXZwQ97yUE12uMnjAADssq";
 
     // currently only get the first address
     public String getAddress(JsonNode event) {
