@@ -278,6 +278,15 @@ button:hover {
 
 .login-container {
     padding: 16px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#authenticate {
+    width: 50%;
+    display: block;
+    margin: auto;
+    border-radius: 25px;
 }
 
 span.psw {
@@ -307,6 +316,7 @@ span.psw {
     border: 1px solid #888;
     max-width: 500px;
     min-width: 300px;
+    border-radius: 15px;
 }
 
 /* The Close Button (x) */
