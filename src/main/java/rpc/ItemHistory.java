@@ -2,7 +2,7 @@ package rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DBConnection;
-import db.mysql.MySQLConnection;
+import db.DBConnectionFactory;
 import entity.Favorite;
 import entity.Item;
 
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class ItemHistory extends HttpServlet {
             in.close();
             Favorite favorite = mapper.readValue(str.toString(), Favorite.class);
 
-            DBConnection connection = new MySQLConnection();
+            DBConnection connection = DBConnectionFactory.getConnection();
             connection.setFavoriteItem(userID, favorite.getFavorites());
 
             Map<String, String> res = new HashMap<>();
@@ -52,11 +53,11 @@ public class ItemHistory extends HttpServlet {
         String userID = (String) request.getAttribute("username");
 
         try {
-            DBConnection connection = new MySQLConnection();
-            Set<Item> favoriteItems = connection.getFavoriteItems(userID);
+            DBConnection connection = DBConnectionFactory.getConnection();
+            List<Item> favoriteItems = connection.getFavoriteItems(userID);
             ObjectMapper mapper = new ObjectMapper();
 
-            Set<String> userFavorites = connection.getFavoriteItemIds(userID);
+            List<String> userFavorites = connection.getFavoriteItemIds(userID);
             for(Item item : favoriteItems) {
                 item.setFavorite(userFavorites.contains(item.getId()));
             }
@@ -81,7 +82,7 @@ public class ItemHistory extends HttpServlet {
             in.close();
             Favorite favorite = mapper.readValue(str.toString(), Favorite.class);
 
-            DBConnection connection = new MySQLConnection();
+            DBConnection connection = DBConnectionFactory.getConnection();
             connection.unsetFavoriteItem(userID, favorite.getFavorites());
 
             Map<String, String> res = new HashMap<>();

@@ -91,7 +91,7 @@ public class TicketMasterAPI {
         return "";
     }
 
-    public Set<String> getCategories(JsonNode event) {
+    public List<String> getCategories(JsonNode event) {
 
         Set<String> categories = new HashSet<>();
         if (event.hasNonNull("classifications") && event.get("classifications").isArray()) {
@@ -110,7 +110,7 @@ public class TicketMasterAPI {
             }
         }
 
-        return categories;
+        return new ArrayList<>(categories);
     }
 
     public List<Item> getItemList(ArrayNode events) {

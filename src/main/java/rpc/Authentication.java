@@ -2,7 +2,7 @@ package rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DBConnection;
-import db.mysql.MySQLConnection;
+import db.DBConnectionFactory;
 import entity.Auth;
 import util.JwtUtil;
 
@@ -32,7 +32,7 @@ public class Authentication extends HttpServlet {
 
             Auth auth = mapper.readValue(str.toString(), Auth.class);
 
-            DBConnection connection = new MySQLConnection();
+            DBConnection connection = DBConnectionFactory.getConnection();
 
             if (connection.verifyLogin(auth.getUsername(), auth.getPassword())) {
                 JwtUtil jwtUtil = new JwtUtil();

@@ -79,8 +79,8 @@ public class MySQLConnection implements DBConnection {
     }
 
     @Override
-    public Set<String> getFavoriteItemIds(String userID) {
-        Set<String> favoriteItemIds = new HashSet<>();
+    public List<String> getFavoriteItemIds(String userID) {
+        List<String> favoriteItemIds = new ArrayList<>();
         String sql = "SELECT item_id FROM history WHERE user_id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -97,9 +97,9 @@ public class MySQLConnection implements DBConnection {
     }
 
     @Override
-    public Set<Item> getFavoriteItems(String userID) {
-        Set<Item> favoriteItems = new HashSet<>();
-        Set<String> favoriteItemIds = this.getFavoriteItemIds(userID);
+    public List<Item> getFavoriteItems(String userID) {
+        List<Item> favoriteItems = new ArrayList<>();
+        List<String> favoriteItemIds = this.getFavoriteItemIds(userID);
 
         try {
             String sql = "SELECT * FROM items WHERE item_id = ?";
@@ -133,7 +133,7 @@ public class MySQLConnection implements DBConnection {
     @Override
     public List<Item> getRecommendItems(String userID, double lat, double lon) {
         // get user's all favorite items
-        Set<Item> favorites = this.getFavoriteItems(userID);
+        List<Item> favorites = this.getFavoriteItems(userID);
         Set<String> favoriteID = new HashSet<>();
 
         // fetch all favorite items' categories
@@ -188,7 +188,7 @@ public class MySQLConnection implements DBConnection {
     }
 
     @Override
-    public Set<String> getCategories(String itemID) {
+    public List<String> getCategories(String itemID) {
         Set<String> categories = new HashSet<>();
 
         try {
@@ -204,7 +204,7 @@ public class MySQLConnection implements DBConnection {
             throwables.printStackTrace();
         }
 
-        return categories;
+        return new ArrayList<>(categories);
     }
 
     @Override

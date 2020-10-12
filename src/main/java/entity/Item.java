@@ -2,7 +2,7 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.Set;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
@@ -10,7 +10,7 @@ public class Item {
     private String name;
     private double rating;
     private String address;
-    private Set<String> categories;
+    private List<String> categories;
     private String imageUrl;
     private String url;
     private double distance;
@@ -62,11 +62,11 @@ public class Item {
         this.address = address;
     }
 
-    public Set<String> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<String> categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 
@@ -107,7 +107,7 @@ public class Item {
         private String name;
         private double rating;
         private String address;
-        private Set<String> categories;
+        private List<String> categories;
         private String imageUrl;
         private String url;
         private double distance;
@@ -132,7 +132,7 @@ public class Item {
             return this;
         }
 
-        public ItemBuilder setCategories(Set<String> categories) {
+        public ItemBuilder setCategories(List<String> categories) {
             this.categories = categories;
             return this;
         }

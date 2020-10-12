@@ -2,9 +2,8 @@ package rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DBConnection;
-import db.mysql.MySQLConnection;
+import db.DBConnectionFactory;
 import entity.Item;
-import external.TicketMasterAPI;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,12 +36,12 @@ public class SearchItem extends HttpServlet {
             double lon = Double.parseDouble(request.getParameter("lon"));
             String keyword = request.getParameter("term");
 
-            DBConnection dbConnection = new MySQLConnection();
+            DBConnection dbConnection = DBConnectionFactory.getConnection();
             itemList = dbConnection.searchItems(lat, lon, keyword);
 
             String userId = (String) request.getAttribute("username");
             if (userId != null) {
-                Set<String> userFavorites = dbConnection.getFavoriteItemIds(userId);
+                List<String> userFavorites = dbConnection.getFavoriteItemIds(userId);
                 for(Item item : itemList) {
                     item.setFavorite(userFavorites.contains(item.getId()));
                 }

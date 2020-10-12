@@ -7,19 +7,19 @@ import java.util.Set;
 
 public interface DBConnection {
 
-    public void close();
+    public void close() throws Exception;
 
     public void setFavoriteItem(String userID, List<String> itemIds);
 
     public void unsetFavoriteItem(String userID, List<String> itemIds);
 
-    public Set<String> getFavoriteItemIds(String userID);
+    public List<String> getFavoriteItemIds(String userID);
 
-    public Set<Item> getFavoriteItems(String userID);
+    public List<Item> getFavoriteItems(String userID);
 
     public List<Item> getRecommendItems(String userID, double lat, double lon);
 
-    public Set<String> getCategories(String itemID);
+    public List<String> getCategories(String itemID);
 
     public List<Item> searchItems(double lat, double lon, String term);
 

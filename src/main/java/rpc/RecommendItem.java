@@ -2,7 +2,7 @@ package rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DBConnection;
-import db.mysql.MySQLConnection;
+import db.DBConnectionFactory;
 import entity.Item;
 
 import javax.servlet.ServletException;
@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet("/recommendation")
 public class RecommendItem extends HttpServlet {
@@ -28,7 +25,7 @@ public class RecommendItem extends HttpServlet {
         double lat = Double.parseDouble(request.getParameter("lat"));
         double lon = Double.parseDouble(request.getParameter("lon"));
 
-        DBConnection connection = new MySQLConnection();
+        DBConnection connection = DBConnectionFactory.getConnection();
 
         List<Item> recommendItems = connection.getRecommendItems(userID, lat, lon);
 
