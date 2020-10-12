@@ -17,7 +17,7 @@ import java.util.Set;
 public class TicketMasterAPI {
     private static final String URL = "https://app.ticketmaster.com/discovery/v2/events.json";
     private static final String DEFAULT_KEYWORD = "";
-    private static final String API_KEY = "JxbjjFuVi1GXZwQ97yUE12uMnjAADssq";
+    private static final String API_KEY = "";
 
     // currently only get the first address
     public String getAddress(JsonNode event) {
@@ -36,15 +36,14 @@ public class TicketMasterAPI {
                         JsonNode address = venue.get("address");
                         if (address.hasNonNull("line1")) {
                             str.append(address.get("line1").asText());
-                            str.append(" ");
                         }
                         if (address.hasNonNull("line2")) {
-                            str.append(address.get("line2").asText());
                             str.append(" ");
+                            str.append(address.get("line2").asText());
                         }
                         if (address.hasNonNull("line3")) {
-                            str.append(address.get("line3").asText());
                             str.append(" ");
+                            str.append(address.get("line3").asText());
                         }
                     }
 
@@ -52,8 +51,17 @@ public class TicketMasterAPI {
                         JsonNode city = venue.get("city");
 
                         if (city.hasNonNull("name")) {
+                            str.append(", ");
                             str.append(city.get("name").asText());
-                            str.append(" ");
+                        }
+                    }
+
+                    if (venue.hasNonNull("state")) {
+                        JsonNode state = venue.get("state");
+
+                        if (state.hasNonNull("stateCode")) {
+                            str.append(", ");
+                            str.append(state.get("stateCode").asText());
                         }
                     }
 
