@@ -15,6 +15,11 @@ import java.io.IOException;
 public class JwtSearchFilter implements Filter {
 
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
@@ -39,6 +44,11 @@ public class JwtSearchFilter implements Filter {
         } else {
             chain.doFilter(request, response);
         }
+    }
+
+    @Override
+    public void destroy() {
+
     }
 
 }

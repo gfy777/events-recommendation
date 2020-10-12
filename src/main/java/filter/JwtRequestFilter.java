@@ -18,6 +18,13 @@ import java.util.Map;
 
 @WebFilter(urlPatterns = {"/history", "/recommendation"})
 public class JwtRequestFilter implements Filter {
+
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -65,5 +72,10 @@ public class JwtRequestFilter implements Filter {
 
             response.getWriter().write(mapper.writeValueAsString(errorDetails));
         }
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }
