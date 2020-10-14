@@ -1,6 +1,7 @@
 package db.postgresql;
 
 import db.DBConnection;
+import db.DBConnectionFactory;
 import entity.Item;
 import external.TicketMasterAPI;
 
@@ -10,13 +11,8 @@ import java.util.*;
 public class PostgreSqlConnection implements DBConnection {
     private Connection connection;
 
-    public PostgreSqlConnection() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(PostgreSqlDBUtil.URL);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
+    public PostgreSqlConnection(Connection connection) {
+        this.connection = connection;
     }
 
     @Override

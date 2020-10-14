@@ -12,13 +12,8 @@ public class MySQLConnection implements DBConnection {
 
     private Connection connection;
 
-    public MySQLConnection() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(MySQLDBUtil.URL);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public MySQLConnection(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
