@@ -58,6 +58,14 @@ public class JwtRequestFilter implements Filter {
                 response.setContentType("application/json");
 
                 response.getWriter().write(mapper.writeValueAsString(errorDetails));
+            } finally {
+                try {
+                    if (connection != null){
+                        connection.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             Map<String, Object> errorDetails = new HashMap<>();

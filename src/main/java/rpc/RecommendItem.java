@@ -15,11 +15,11 @@ import java.util.List;
 
 @WebServlet("/recommendation")
 public class RecommendItem extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userID = (String) request.getAttribute("username");
 
         double lat = Double.parseDouble(request.getParameter("lat"));
@@ -28,6 +28,14 @@ public class RecommendItem extends HttpServlet {
         DBConnection connection = DBConnectionFactory.getConnection();
 
         List<Item> recommendItems = connection.getRecommendItems(userID, lat, lon);
+
+        try {
+            if (connection != null){
+                connection.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         ObjectMapper mapper = new ObjectMapper();
 

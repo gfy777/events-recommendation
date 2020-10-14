@@ -26,6 +26,8 @@ public class ItemHistory extends HttpServlet {
 
         String userID = (String) request.getAttribute("username");
 
+        DBConnection connection = null;
+
         try {
             BufferedReader in = request.getReader();
             String line = null;
@@ -35,7 +37,7 @@ public class ItemHistory extends HttpServlet {
             in.close();
             Favorite favorite = mapper.readValue(str.toString(), Favorite.class);
 
-            DBConnection connection = DBConnectionFactory.getConnection();
+            connection = DBConnectionFactory.getConnection();
             connection.setFavoriteItem(userID, favorite.getFavorites());
 
             Map<String, String> res = new HashMap<>();
@@ -46,14 +48,24 @@ public class ItemHistory extends HttpServlet {
             RpcHelper.writeJson(response, mapper.writeValueAsString(res));
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userID = (String) request.getAttribute("username");
 
+        DBConnection connection = null;
+
         try {
-            DBConnection connection = DBConnectionFactory.getConnection();
+            connection = DBConnectionFactory.getConnection();
             List<Item> favoriteItems = connection.getFavoriteItems(userID);
             ObjectMapper mapper = new ObjectMapper();
 
@@ -65,6 +77,14 @@ public class ItemHistory extends HttpServlet {
             RpcHelper.writeJson(response, mapper.writeValueAsString(favoriteItems));
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -73,6 +93,9 @@ public class ItemHistory extends HttpServlet {
         StringBuilder str = new StringBuilder();
         ObjectMapper mapper = new ObjectMapper();
         String userID = (String) request.getAttribute("username");
+
+        DBConnection connection = null;
+
         try {
             BufferedReader in = request.getReader();
             String line = null;
@@ -82,7 +105,7 @@ public class ItemHistory extends HttpServlet {
             in.close();
             Favorite favorite = mapper.readValue(str.toString(), Favorite.class);
 
-            DBConnection connection = DBConnectionFactory.getConnection();
+            connection = DBConnectionFactory.getConnection();
             connection.unsetFavoriteItem(userID, favorite.getFavorites());
 
             Map<String, String> res = new HashMap<>();
@@ -93,6 +116,14 @@ public class ItemHistory extends HttpServlet {
             RpcHelper.writeJson(response, mapper.writeValueAsString(res));
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

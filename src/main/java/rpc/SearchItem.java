@@ -29,19 +29,19 @@ public class SearchItem extends HttpServlet {
 
         List<Item> itemList = new ArrayList<>();
 
-
+        DBConnection connection = null;
 
         try {
             double lat = Double.parseDouble(request.getParameter("lat"));
             double lon = Double.parseDouble(request.getParameter("lon"));
             String keyword = request.getParameter("term");
 
-            DBConnection dbConnection = DBConnectionFactory.getConnection();
-            itemList = dbConnection.searchItems(lat, lon, keyword);
+            connection = DBConnectionFactory.getConnection();
+            itemList = connection.searchItems(lat, lon, keyword);
 
             String userId = (String) request.getAttribute("username");
             if (userId != null) {
-                List<String> userFavorites = dbConnection.getFavoriteItemIds(userId);
+                List<String> userFavorites = connection.getFavoriteItemIds(userId);
                 for(Item item : itemList) {
                     item.setFavorite(userFavorites.contains(item.getId()));
                 }
@@ -50,6 +50,14 @@ public class SearchItem extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         ObjectMapper mapper = new ObjectMapper();

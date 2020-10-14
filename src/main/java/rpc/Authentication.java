@@ -21,6 +21,7 @@ public class Authentication extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StringBuilder str = new StringBuilder();
         ObjectMapper mapper = new ObjectMapper();
+        DBConnection connection = null;
 
         try {
             BufferedReader in = request.getReader();
@@ -32,7 +33,7 @@ public class Authentication extends HttpServlet {
 
             Auth auth = mapper.readValue(str.toString(), Auth.class);
 
-            DBConnection connection = DBConnectionFactory.getConnection();
+            connection = DBConnectionFactory.getConnection();
 
             if (connection.verifyLogin(auth.getUsername(), auth.getPassword())) {
                 JwtUtil jwtUtil = new JwtUtil();
@@ -47,10 +48,19 @@ public class Authentication extends HttpServlet {
                 res.put("error", "Password Invalid");
                 RpcHelper.writeJson(response, mapper.writeValueAsString(res));
             }
+            connection.close();
         } catch (Exception e) {
             Map<String, String> res = new HashMap<>();
             res.put("error", "Authentication failed");
             RpcHelper.writeJson(response, mapper.writeValueAsString(res));
+        } finally {
+            try {
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

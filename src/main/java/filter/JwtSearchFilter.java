@@ -41,6 +41,14 @@ public class JwtSearchFilter implements Filter {
                 chain.doFilter(request, response);
             } catch (Exception ex) {
                 chain.doFilter(request, response);
+            } finally {
+                try {
+                    if (connection != null){
+                        connection.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             chain.doFilter(request, response);
