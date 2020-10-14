@@ -3,6 +3,7 @@ package filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.DBConnection;
+import db.DBConnectionFactory;
 import db.mysql.MySQLConnection;
 import util.JwtUtil;
 
@@ -30,7 +31,7 @@ public class JwtRequestFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         ObjectMapper mapper = new ObjectMapper();
-        DBConnection connection = new MySQLConnection();
+        DBConnection connection = DBConnectionFactory.getConnection();
 
         final String authHeader = request.getHeader("Authorization");
 

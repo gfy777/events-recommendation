@@ -39,7 +39,7 @@ public class PostgreSqlConnection implements DBConnection {
         }
 
         try {
-            String sql = "INSERT IGNORE INTO history (user_id, item_id) VALUES (?, ?)";
+            String sql = "INSERT INTO history (user_id, item_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             for (String itemId : itemIds) {
@@ -225,7 +225,7 @@ public class PostgreSqlConnection implements DBConnection {
         }
         try {
             // save to item database
-            String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, item.getId());
             statement.setString(2, item.getName());
@@ -237,7 +237,7 @@ public class PostgreSqlConnection implements DBConnection {
             statement.execute();
 
             // then save item-category
-            sql = "INSERT IGNORE INTO categories VALUES (?,?)";
+            sql = "INSERT INTO categories VALUES (?,?) ON CONFLICT DO NOTHING;";
             statement = connection.prepareStatement(sql);
             for (String category : item.getCategories()) {
                 statement.setString(1, item.getId());
