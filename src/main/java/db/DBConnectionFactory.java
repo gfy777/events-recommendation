@@ -2,9 +2,10 @@ package db;
 
 import db.firestore.FirestoreConnection;
 import db.mysql.MySQLConnection;
+import db.postgresql.PostgreSqlConnection;
 
 public class DBConnectionFactory {
-    private static final String DEFAULT_DB = "firestore";
+    private static final String DEFAULT_DB = "postgresql";
 
     public static DBConnection getConnection(String db) {
         switch (db) {
@@ -15,6 +16,8 @@ public class DBConnectionFactory {
                 return null;
             case "firestore":
                 return new FirestoreConnection();
+            case "postgresql":
+                return new PostgreSqlConnection();
             default:
                 throw new IllegalArgumentException("Invalid db: " + db);
         }
