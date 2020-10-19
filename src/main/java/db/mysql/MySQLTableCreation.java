@@ -1,10 +1,9 @@
 package db.mysql;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.sql.*;
 
 // help reset database
 public class MySQLTableCreation {
@@ -80,8 +79,13 @@ public class MySQLTableCreation {
             System.out.println("Clean up successfully");
 
             // step 4 - insert fake user
-            sql = "INSERT INTO users (user_id, password) VALUES ('ryan', 'ryan')";
-            statement.executeUpdate(sql);
+            String salt = BCrypt.gensalt();
+            String fakeUserPassword = BCrypt.hashpw("ryan", salt);
+            sql = "INSERT INTO users (user_id, password) VALUES ('ryan', ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, fakeUserPassword);
+
+            preparedStatement.executeUpdate();
 
 
 

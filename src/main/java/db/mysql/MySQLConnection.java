@@ -4,6 +4,7 @@ import db.DBConnection;
 import entity.Item;
 import entity.Item.ItemBuilder;
 import external.TicketMasterAPI;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.*;
@@ -279,16 +280,18 @@ public class MySQLConnection implements DBConnection {
         }
 
         try {
-            String sql = "SELECT user_id FROM users WHERE user_id = ? and password = ?";
+            String sql = "SELECT password FROM users WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, userID);
-            statement.setString(2, password);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return true;
+                String savedHashedPassword = resultSet.getString("password");
+                return BCrypt.checkpw(password, savedHashedPassword);
             }
+
+            return false;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
