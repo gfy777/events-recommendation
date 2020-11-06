@@ -13,6 +13,7 @@ public class Item {
     private List<String> categories;
     private String imageUrl;
     private String url;
+    private String time;
     private double distance;
     private boolean favorite;
 
@@ -28,6 +29,7 @@ public class Item {
         this.imageUrl = builder.imageUrl;
         this.url = builder.url;
         this.distance = builder.distance;
+        this.time = builder.time;
     }
 
     public String getId() {
@@ -102,6 +104,14 @@ public class Item {
         this.favorite = favorite;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public static class ItemBuilder {
         private String id;
         private String name;
@@ -110,6 +120,7 @@ public class Item {
         private List<String> categories;
         private String imageUrl;
         private String url;
+        private String time;
         private double distance;
 
         public ItemBuilder setId(String id) {
@@ -152,6 +163,11 @@ public class Item {
             return this;
         }
 
+        public ItemBuilder setTime(String time) {
+            this.time = time;
+            return this;
+        }
+
         public Item build() {
             return new Item(this);
         }
@@ -167,6 +183,7 @@ public class Item {
                 ", categories=" + categories +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", url='" + url + '\'' +
+                ", time='" + time + '\'' +
                 ", distance=" + distance +
                 '}';
     }

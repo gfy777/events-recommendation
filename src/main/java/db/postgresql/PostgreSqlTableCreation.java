@@ -46,6 +46,7 @@ public class PostgreSqlTableCreation {
                     + " address VARCHAR(255),"
                     + " image_url VARCHAR(255),"
                     + " url VARCHAR(255),"
+                    + " time VARCHAR(255),"
                     + " distance FLOAT,"
                     + " PRIMARY KEY (item_id))";
             statement.executeUpdate(sql);

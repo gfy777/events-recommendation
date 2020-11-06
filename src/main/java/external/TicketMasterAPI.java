@@ -116,6 +116,7 @@ public class TicketMasterAPI {
     public List<Item> getItemList(ArrayNode events) {
         List<Item> itemList = new ArrayList<>();
 
+
         for (int i = 0; i < events.size(); i++) {
             JsonNode event = events.get(i);
 
@@ -135,6 +136,21 @@ public class TicketMasterAPI {
             }
             if (event.hasNonNull("distance")) {
                 builder.setDistance(event.get("distance").asDouble());
+            }
+            if (event.hasNonNull("dates")) {
+                JsonNode dates = event.get("dates");
+                if (dates.hasNonNull("start")) {
+                    JsonNode start = dates.get("start");
+                    if (start.hasNonNull("dateTime")) {
+                        builder.setTime(start.get("dateTime").asText());
+                    } else {
+                        builder.setTime("TBA");
+                    }
+                } else {
+                    builder.setTime("TBA");
+                }
+            } else {
+                builder.setTime("TBA");
             }
 
             builder.setCategories(getCategories(event));

@@ -187,11 +187,6 @@ ul {
     text-align: right;
 }
 
-.stars {
-    align-items: center;
-    display: flex;
-    padding-top: 10px;
-}
 
 .fav-link {
     border-left: 1px solid #ffffff;

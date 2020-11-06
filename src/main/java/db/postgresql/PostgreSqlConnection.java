@@ -112,6 +112,7 @@ public class PostgreSqlConnection implements DBConnection {
                             .setAddress(resultSet.getString("address"))
                             .setImageUrl(resultSet.getString("image_url"))
                             .setUrl(resultSet.getString("url"))
+                            .setTime(resultSet.getString("time"))
                             .setDistance(resultSet.getDouble("distance"))
                             .setRating((resultSet.getDouble("rating")))
                             .setCategories(this.getCategories(id))
@@ -222,7 +223,7 @@ public class PostgreSqlConnection implements DBConnection {
         }
         try {
             // save to item database
-            String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING;";
+            String sql = "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, item.getId());
             statement.setString(2, item.getName());
@@ -230,7 +231,8 @@ public class PostgreSqlConnection implements DBConnection {
             statement.setString(4, item.getAddress());
             statement.setString(5, item.getImageUrl());
             statement.setString(6, item.getUrl());
-            statement.setDouble(7, item.getDistance());
+            statement.setString(7, item.getTime());
+            statement.setDouble(8, item.getDistance());
             statement.execute();
 
             // then save item-category

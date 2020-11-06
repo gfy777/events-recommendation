@@ -108,15 +108,9 @@ var UIController = (function () {
         section.appendChild(category);
 
 
-        var stars = createElement('div', {className: 'stars'});
-        for(var i = 0; i < item.rating; i++) {
-            var star = createElement('i', {className: 'fa fa-star'});
-            stars.appendChild(star);
-        }
-        if (('' + item.rating).match(/\.5$/)) {
-            stars.appendChild(createElement('i', {className: 'fa fa-star-half-o'}));
-        }
-        section.appendChild(stars);
+        var datetime = createElement('p', {className: 'datetime'});
+        datetime.innerHTML = 'Date: ' + item.time.split('T')[0];
+        section.appendChild(datetime);
 
         li.appendChild(section);
 
